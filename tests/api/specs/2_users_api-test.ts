@@ -10,19 +10,67 @@ chai.use(require('chai-json-schema'));
 
 describe(`Users controller`, () => {
     let userId: number;
+    let accessToken = auth.login
 
     it(`New user account registered`, async () => {
         let response = await auth.registration(0,"myavatar","kuzivoleg7177@gmail.com","oleg7177","password1111");
 
         // console.log("All Users:");
         // console.log(response.body);
-/*
-        expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+
+        expect(response.statusCode, `Status Code should be 200`).to.be.equal(201);
         expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000);
-        expect(response.body.length, `Response body should have more than 1 item`).to.be.greaterThan(1); 
-        expect(response.body).to.be.jsonSchema(schemas.schema_allUsers); 
-  */      
+        //expect(response.body.length, `Response body should have more than 1 item`).to.be.greaterThan(1); 
+        //expect(response.body).to.be.jsonSchema(schemas.schema_allUsers); 
+        
         //userId = response.body[1].id;
+    });
+
+    it(`Get all users`, async () => {
+        let response = await users.getAllUsers();
+
+        expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+        expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
+    });
+
+    it(`Authorization`, async () => {
+        let response = await auth.login("kuzivoleg7177@gmail.com","password1111");
+
+        expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+        expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
+    });
+
+    it(`Get current authorized user`, async () => {
+        
+        let response = await users.getUserFromToken(1744,"myavatar","kuzivoleg7177@gmail.com","oleg7177");
+
+       // expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+       // expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
+    });
+
+    it(`Update user info`, async () => {
+        
+        let response = await users.updateUserInfo(1745,"myavatar","kuzivoleg7177@@@gmail.com","oleg7177@@@")
+
+       // expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+        expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
+    });
+
+
+    it(`Update user info from ID`, async () => {
+        
+        let response = await users.getUserInfoFromID();
+
+       // expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+        //expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
+    });
+
+    it(`Delete user by ID`, async () => {
+        
+        let response = await users.deleteUserByID()
+
+       // expect(response.statusCode, `Status Code should be 200`).to.be.equal(200);
+        expect(response.timings.phases.total, `Response time should be less than 1s`).to.be.lessThan(1000); 
     });
  /*
     it(`should return 200 status code and all users when getting the user collection`, async () => {

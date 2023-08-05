@@ -9,7 +9,7 @@ xdescribe("Token usage", () => {
     let accessToken: string;
 
     before(`Login and get the token`, async () => {
-        let response = await auth.login("email.qa.test@gmail.com", "password");
+        let response = await auth.login("kuzivoleg7177@gmail.com", "password1111");
 
         accessToken = response.body.token.accessToken.token;
         // console.log(accessToken);
