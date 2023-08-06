@@ -30,10 +30,11 @@ export class UsersController {
         return response;
     }
 
-    async updateUserInfo(idValue : number, avatarValue : string, emailValue : string, userNameValue : string) {
+    async updateUserInfo(idValue : number, avatarValue : string, emailValue : string, userNameValue : string, accessToken : string) {
         const response = await new ApiRequest()
             .prefixUrl("http://tasque.lol/")
             .method("PUT")
+            .bearerToken(accessToken)
             .url(`api/Users`)
             .body({
                 
@@ -48,20 +49,12 @@ export class UsersController {
             .send();
         return response;
     }
-    async getUserFromToken(idValue : number, avatarValue : string, emailValue : string, userNameValue : string) {
+    async getUserFromToken(accessToken : string) {
         const response = await new ApiRequest()
             .prefixUrl("http://tasque.lol/")
+            .bearerToken(accessToken)
             .method("GET")
             .url(`api/Users/fromToken`)
-            .body({
-                
-                id: idValue,
-                avatar: avatarValue,
-                email: emailValue,
-                userName: userNameValue,
-                
-              
-        })
             .send();
         return response;
     }
@@ -70,22 +63,79 @@ export class UsersController {
         const response = await new ApiRequest()
             .prefixUrl("http://tasque.lol/")
             .method("GET")
-            .url(`api/Users/1745`)
+            .url(`api/Users/1745`)         
+            .send();
+        return response;
+    }
+
+    async deleteUserByID(accessToken : string,userID : string) {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("DELETE")
+            .bearerToken(accessToken)
+            .url(`api/Users/`+userID)
             .body({
-              
+                
         })
             
             .send();
         return response;
     }
 
-    async deleteUserByID() {
+    async commentPost(accessToken : string, authorIdValue : number, postIdValue : number, bodyValue : string) {
         const response = await new ApiRequest()
             .prefixUrl("http://tasque.lol/")
-            .method("DELETE")
-            .url(`api/Users/1746`)
+            .method("POST")
+            .bearerToken(accessToken)
+            .url(`api/Comments`)
             .body({
+                authorId: authorIdValue,
+                postId: postIdValue,
+                body: bodyValue
                 
+        })
+            
+            .send();
+        return response;
+    }
+
+    async getAllPosts() {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("GET")
+            .url(`api/Posts`)
+            .send();
+        return response;
+    }
+
+    async createNewPost(accessToken : string, authorIdValue : number, previewImageValue : string, bodyValue : string) {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("POST")
+            .url(`api/Posts`)
+            .bearerToken(accessToken)
+            .body({  
+
+                authorId: authorIdValue,
+                previewImage: previewImageValue,
+                body: bodyValue
+        })
+            
+            .send();
+        return response;
+    }
+
+    async addLikeReactionPost(accessToken : string, EntityIdValue : number, isLikeValue : boolean, userIdValue: number) {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("POST")
+            .url(`api/Posts/like`)
+            .bearerToken(accessToken)
+            .body({  
+
+                EntityId: EntityIdValue,
+                isLike: isLikeValue,
+                userId : userIdValue
         })
             
             .send();
