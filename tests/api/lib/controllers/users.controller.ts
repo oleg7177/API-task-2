@@ -63,7 +63,25 @@ export class UsersController {
         const response = await new ApiRequest()
             .prefixUrl("http://tasque.lol/")
             .method("GET")
-            .url(`api/Users/1745`)         
+            .url(`api/Users/1747`)         
+            .send();
+        return response;
+    }
+
+    async getUserInfoFromInvalidID() {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("GET")
+            .url(`api/Users/174717`)         
+            .send();
+        return response;
+    }
+
+    async getUserInfoFromInvalidIDType() {
+        const response = await new ApiRequest()
+            .prefixUrl("http://tasque.lol/")
+            .method("GET")
+            .url(`api/Users/1747172123213131321313213`)         
             .send();
         return response;
     }
